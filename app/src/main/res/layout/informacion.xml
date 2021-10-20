@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:id="@+id/infoview"
+    android:background="#FFD3AC"
+
+    >
+
+    <TextView
+        android:id="@+id/textView"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="INFORMACION IMPORTANTE"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
+
+    <TextView
+        android:padding="10dp"
+        android:id="@+id/textView2"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:text="Los horarios bancarios seran por pandemia de Lunes a Viernes de 10 a 17 hs con turno" />
+
+    <Button
+        android:id="@+id/aceptar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#F57F17"
+        android:onClick="aceptar"
+        android:text="ACEPTAR"
+        android:textSize="25sp"
+        app:strokeColor="@color/teal_200"></Button>
+</LinearLayout>

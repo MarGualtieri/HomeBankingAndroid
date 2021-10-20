@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Home Banking</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="cuenta">Cuenta</string>
+    <string name="tarjeta">Tarjeta</string>
+    <string name="inversion">Inversion</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
