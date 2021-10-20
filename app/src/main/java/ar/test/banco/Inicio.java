@@ -51,7 +51,7 @@ public class Inicio extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Toast.makeText(getActivity(), "This is my Toast message!",
+        Toast.makeText(getActivity(), "Welcome!",
                 Toast.LENGTH_LONG).show();
 
 
