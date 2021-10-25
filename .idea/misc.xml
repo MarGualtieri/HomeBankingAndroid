@@ -4,10 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/activity_login.xml" value="0.22" />
-        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/activity_start.xml" value="0.21" />
+        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/cuenta.xml" value="0.2796875" />
+        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/fragment_container.xml" value="0.2" />
         <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/inicio.xml" value="0.25" />
-        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/menu.xml" value="0.18" />
-        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/toolbar.xml" value="0.5" />
+        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/menu.xml" value="0.1" />
+        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/splash_screen.xml" value="0.296875" />
+        <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/layout/toolbar.xml" value="0.244" />
         <entry key="..\:/ANDROID/APK FIRMADAS/Banco/app/src/main/res/menu/menu_dots.xml" value="0.203125" />
         <entry key="..\:/Android Projects/Banco/app/src/main/res/layout/activity_main.xml" value="0.1816123188405797" />
         <entry key="..\:/Android Projects/Banco/app/src/main/res/layout/inicio.xml" value="0.13125" />

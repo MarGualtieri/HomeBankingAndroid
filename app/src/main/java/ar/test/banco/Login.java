@@ -1,14 +1,14 @@
 package ar.test.banco;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.material.snackbar.Snackbar;
 
 public class Login extends AppCompatActivity {
 
@@ -24,23 +24,21 @@ Button LogEnter;
         setContentView(R.layout.activity_login);
 
 
-        login = (EditText)findViewById(R.id.username);
-        password = (EditText)findViewById(R.id.password);
-        LogEnter = (Button)findViewById(R.id.logEnter);
+        login = findViewById(R.id.username);
+        password = findViewById(R.id.password);
+        LogEnter = findViewById(R.id.logEnter);
 
-        LogEnter.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
+        LogEnter.setOnClickListener(v -> {
 
-                Bundle bundle = new Bundle();
-                bundle.putString("username", login.getText().toString());
+            Fragment fragment = new Fragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("username",login.getText().toString());
+            fragment.setArguments(bundle);
 
-                Intent next = new Intent(Login.this, MainActivity.class);
-                next.putExtras(bundle);
-                startActivity(next);
-            }
+
+            Intent next = new Intent(Login.this, StartActivity.class);
+             next.putExtras(bundle);
+            startActivity(next);
         });
 
     }

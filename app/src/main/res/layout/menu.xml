@@ -20,7 +20,7 @@
 
         <ImageButton
             android:foreground="?android:attr/selectableItemBackground"
-            android:id="@+id/cuenta"
+            android:id="@+id/cuentaBoton3"
             style="@style/botones"
             android:src="@drawable/icono_cuenta"
             android:layout_weight="33.3"

@@ -105,7 +105,6 @@ private void obtenerDatosVolley(){
     public void menu(int boton) {
 
 
-
         misFragments = new Fragment[]{new Cuenta(), new Tarjeta(), new Inversion()};
 
         getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,misFragments[boton]).commit();

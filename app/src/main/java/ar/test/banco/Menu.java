@@ -1,15 +1,15 @@
 package ar.test.banco;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +17,9 @@ import android.widget.ImageButton;
  * create an instance of this fragment.
  */
 public class Menu extends Fragment{
+    ImageButton cuentaBoton;
+ ImageButton tarjeta;
+ ImageButton inversion;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +31,7 @@ public class Menu extends Fragment{
     private String mParam2;
 
 
-    private final int [] BOTONESMENU = {R.id.cuenta,R.id.tarjeta,R.id.inversion};
+    //private final int [] BOTONESMENU = {R.id.cuenta,R.id.tarjeta,R.id.inversion};
 
     public Menu() {
         // Required empty public constructor
@@ -59,14 +62,37 @@ public class Menu extends Fragment{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View mimenu= inflater.inflate(R.layout.menu, container, false);
 
+
+
+        cuentaBoton = (ImageButton) mimenu.findViewById(R.id.cuentaBoton3);
+        tarjeta = (ImageButton) mimenu.findViewById(R.id.tarjeta);
+        inversion = (ImageButton) mimenu.findViewById(R.id.inversion);
+
+
+      cuentaBoton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+
+                Navigation.findNavController(v).navigate(R.id.action_fragmentContainer_to_cuenta2);
+               // Navigation.findNavController(this, R.id.containerFragment).navigate(R.id.cuenta2);
+                Toast.makeText(getActivity(), "This is my Toast message!",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+/*
         ImageButton botonmenu;
 
         for (int i = 0; i<BOTONESMENU.length; i++){
@@ -84,7 +110,7 @@ public class Menu extends Fragment{
 
                 }
             });
-        }
+        }*/
 
         return mimenu;
     }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/fragmentContainer">
+
+    <fragment
+        android:id="@+id/fragmentContainer"
+        android:name="ar.test.banco.FragmentContainer"
+        android:label="fragment_container"
+        tools:layout="@layout/fragment_container" >
+        <action
+            android:id="@+id/action_fragmentContainer_to_cuenta2"
+            app:destination="@id/cuenta2" />
+        <action
+            android:id="@+id/action_fragmentContainer_to_tarjeta2"
+            app:destination="@id/tarjeta2" />
+        <action
+            android:id="@+id/action_fragmentContainer_to_inversion2"
+            app:destination="@id/inversion2" />
+    </fragment>
+    <fragment
+        android:id="@+id/cuenta2"
+        android:name="ar.test.banco.Cuenta"
+        android:label="cuenta"
+        tools:layout="@layout/cuenta" />
+    <fragment
+        android:id="@+id/inversion2"
+        android:name="ar.test.banco.Inversion"
+        android:label="inversion"
+        tools:layout="@layout/inversion" />
+    <fragment
+        android:id="@+id/tarjeta2"
+        android:name="ar.test.banco.Tarjeta"
+        android:label="tarjeta"
+        tools:layout="@layout/tarjeta" />
+</navigation>
