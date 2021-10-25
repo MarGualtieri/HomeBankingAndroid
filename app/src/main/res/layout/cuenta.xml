@@ -7,6 +7,92 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:weightSum="100"
+        android:orientation="vertical">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E3E1E1"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <ImageButton
+                android:id="@+id/cuentaBoton3"
+                style="@style/botones"
+                android:layout_weight="33.3"
+                android:background="#E3E1E1"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/icono_cuenta"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/tarjeta"
+                style="@style/botones"
+                android:layout_weight="33.3"
+                android:background="#E3E1E1"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/icono_tarjeta"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/inversion"
+                style="@style/botones"
+                android:layout_weight="33.3"
+                android:background="#E3E1E1"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/icono_inversion"></ImageButton>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#E3E1E1"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:weightSum="100">
+
+
+            <TextView
+                android:id="@+id/textCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="33.3"
+                android:background="#E3E1E1"
+                android:gravity="center_horizontal"
+                android:text="@string/cuenta"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textTarjeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="33.3"
+                android:background="#E3E1E1"
+                android:gravity="center_horizontal"
+                android:text="@string/tarjeta"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textInversion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="33.3"
+                android:background="#E3E1E1"
+                android:gravity="center_horizontal"
+                android:text="@string/inversion"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/button"
