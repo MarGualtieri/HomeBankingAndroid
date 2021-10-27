@@ -28,7 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity implements ComunicaMenu{
+public class MainActivity extends AppCompatActivity  {
 
 
      //------libreria volley API REST
@@ -39,16 +39,16 @@ public class MainActivity extends AppCompatActivity implements ComunicaMenu{
 
     public Fragment [] misFragments;
 
-    Inicio init;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        init = new Inicio();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.containerFragment,init).commit();
+
+       // getSupportFragmentManager().beginTransaction().add(R.id.containerFragment,init).commit();
 
        toolbar=(Toolbar)findViewById(R.id.toolbar);
 
@@ -100,7 +100,7 @@ private void obtenerDatosVolley(){
 }
 
 
-
+/*
     @Override
     public void menu(int boton) {
 
@@ -108,7 +108,7 @@ private void obtenerDatosVolley(){
         misFragments = new Fragment[]{new Cuenta(), new Tarjeta(), new Inversion()};
 
         getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,misFragments[boton]).commit();
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -128,10 +128,7 @@ private void obtenerDatosVolley(){
         if (id == R.id.config) {
             return true;
         }
-        if (id == R.id.info) {
-informacion();
 
-        }
         if (id == R.id.contacto) {
             return true;
         }
@@ -142,10 +139,7 @@ informacion();
         return super.onOptionsItemSelected(item);
     }
 
-    public void informacion(){
-        Intent i= new Intent(this,Informacion.class );
-        startActivity(i);
-    }
+
 
 
 }

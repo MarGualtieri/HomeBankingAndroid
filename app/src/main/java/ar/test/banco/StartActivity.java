@@ -24,6 +24,7 @@ public class StartActivity extends AppCompatActivity {
     ImageButton close;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class StartActivity extends AppCompatActivity {
         // conectar boton home
         home =  findViewById(R.id.home);
         close = findViewById(R.id.close);
+
 
         // assigning ID of the toolbar to a variable
        Toolbar toolbar = findViewById(R.id.toolbar);
