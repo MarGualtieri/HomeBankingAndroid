@@ -17,12 +17,13 @@
         android:text="BIENVENIDO!" />
 
     <TextView
+        android:id="@+id/usernameInicio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/bottom_bar"
         android:gravity="center"
+
         android:textColor="@color/white"
-        android:text="Pedro Javier Sanchez"
         android:textSize="25sp" />
 
     <TextView

@@ -7,13 +7,12 @@
     tools:context=".Login">
 
 
-
-
     <EditText
         android:id="@+id/username"
-        android:layout_width="0dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
+        android:background="@android:drawable/spinner_background"
         android:hint="User"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
@@ -23,9 +22,10 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="0dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="@android:drawable/spinner_background"
         android:hint="password"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
