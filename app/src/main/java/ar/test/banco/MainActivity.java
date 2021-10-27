@@ -63,15 +63,15 @@ public class MainActivity extends AppCompatActivity  {
                 }
 private void obtenerDatosVolley(){
 
-   // String URL="https://serverfutbol.herokuapp.com/";
-    String url="https://api.androidhive.info/contacts/";
+    String url="https://serverfutbol.herokuapp.com/users";
 
-    JsonObjectRequest request= new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
         @Override
         public void onResponse(JSONObject response) {
-            Toast.makeText(MainActivity.this, "Nombre", Toast.LENGTH_LONG).show();
-            try {
+
+          /*  try {
                 JSONArray myJsonArray = response.getJSONArray("title");
                // JSONObject myJsonObject = myJsonArray.getJSONObject(0) // indice del numero del objeto dentro del array que quiero
 
@@ -84,19 +84,17 @@ private void obtenerDatosVolley(){
             }catch (Exception e){
 
                 e.printStackTrace();
-            }
-
-
-
+            }*/
 
         }
     }, new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
-
+            error.printStackTrace();
+            Toast.makeText(MainActivity.this, "error", Toast.LENGTH_LONG).show();
         }
     });
-    queue.add(request);
+    queue.add(jsonObjectRequest);
 }
 
 

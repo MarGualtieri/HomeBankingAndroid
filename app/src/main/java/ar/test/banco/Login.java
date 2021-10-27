@@ -6,19 +6,38 @@ import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import ar.test.banco.Retrofit.IMyService;
+import ar.test.banco.Retrofit.RetrofitClient;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+
 
 public class Login extends AppCompatActivity {
 
-EditText login;
-EditText password;
-Button LogEnter;
+    EditText user;
+    EditText password;
+    Button btnLogin;
+    Button btnRegister;
+
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    IMyService iMyService;
 
 
+    @Override
+    protected void onStop() {
+        compositeDisposable.clear();
+        super.onStop();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,37 +45,72 @@ Button LogEnter;
         setContentView(R.layout.activity_login);
 
 
-        login = findViewById(R.id.username);
+        //init service
+        Retrofit retrofitClient = RetrofitClient.getInstance();
+        iMyService = retrofitClient.create(IMyService.class);
+
+        //init view
+
+
+        user = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        LogEnter = findViewById(R.id.logEnter);
+        btnLogin = findViewById(R.id.logEnter);
+        btnRegister = findViewById(R.id.btnRegister);
 
 
-        LogEnter.setOnClickListener(v -> {
+        btnRegister.setOnClickListener(v -> {
+
+            Intent next = new Intent(Login.this, Register.class);
+            startActivity(next);
+
+        });
+
+        btnLogin.setOnClickListener(v -> {
+
 
             Fragment fragment = new Fragment();
             Bundle bundle = new Bundle();
-            bundle.putString("username",login.getText().toString());
+            bundle.putString("username", user.getText().toString());
             fragment.setArguments(bundle);
 
 
-if(!password.getText().toString().isEmpty() && !login.getText().toString().isEmpty()  ){
+            loginUser(user.getText().toString(), password.getText().toString(),bundle);
 
-    Intent next = new Intent(Login.this, StartActivity.class);
-    next.putExtras(bundle);
-    startActivity(next);
 
-}else{
-//login.setVisibility(View.VISIBLE);
-    Toast.makeText(getApplicationContext(), "Username or Password is Empty"  , Toast.LENGTH_SHORT).show();
 
-}
+
 
         });
 
     }
 
+    private void loginUser(String user, String password, Bundle bundle) {
 
+        if(TextUtils.isEmpty(user)){
+            Toast.makeText(getApplicationContext(), "Username is Empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(getApplicationContext(), "password is Empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        Intent next = new Intent(Login.this, StartActivity.class);
+        next.putExtras(bundle);
+        startActivity(next);
+
+        compositeDisposable.add(iMyService.loginUser(user,password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe (new Consumer<String>(){
+                    @Override
+                    public void accept(String response) throws  Exception{
+                        Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
+                    }
+
+                    }));
+
+    }
 
 
 }
