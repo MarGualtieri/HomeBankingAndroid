@@ -9,16 +9,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -36,6 +32,8 @@ public class FragmentContainer extends Fragment {
 
 
     TextView userInicio;
+    TextView user;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,34 +84,63 @@ public class FragmentContainer extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
-        Toast.makeText(getContext(), "Nombre en fragment es:" + mParam1 + mParam2, Toast.LENGTH_SHORT).show();
         View view = inflater.inflate(R.layout.fragment_container, container, false);
 
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
-        String value = sharedPreferences.getString("email","");
+        SharedPreferences sh = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String nombre = sh.getString("name", "");
+        String apellido = sh.getString("lastname", "");
+        String email = sh.getString("email", "");
+        int pesos = sh.getInt("pesos",0);
+        int dolares = sh.getInt("dolares",0);
+
         userInicio = view.findViewById(R.id.userInicio);
-        userInicio.setText(value);
+        userInicio.setText(nombre);
+        user = view.findViewById(R.id.user);
+        user.setText(email);
 
-
+// TAB ///////////////////////////////////////////////
 
 
 /*
-        FragmentActivity myContext = null;
-        table = view.findViewById(R.id.tab_layout);
-        viewPager = view.findViewById(R.id.pager);
-        FragmentManager fragManager = myContext.getSupportFragmentManager();
+   FragmentActivity myContext = null;
+        FragmentManager fragManager = getActivity().getSupportFragmentManager();
         adapter = new FragmentAdapter(fragManager, getLifecycle());
+         table = view.findViewById(R.id.tab_layout);
+        viewPager = view.findViewById(R.id.pager);
         viewPager.setAdapter(adapter);
         table.addTab(table.newTab().setText("first"));
         table.addTab(table.newTab().setText("second"));
         table.addTab(table.newTab().setText("third"));
+        table.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
 
-        table.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
+            @Override
+            public void onTabSelected(TabLayout.Tab tab){
 
-*/
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                table.selectTab(table.getTabAt(position));
+            }
+        });*/
+
         return view;
     }
+
 /*
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

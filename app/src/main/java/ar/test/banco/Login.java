@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.text.TextUtils;
@@ -48,6 +49,9 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.password);
         btnLogin = findViewById(R.id.logEnter);
         btnRegister = findViewById(R.id.btnRegister);
+
+
+
 
 
         btnRegister.setOnClickListener(v -> {
@@ -116,10 +120,32 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                 Toast.makeText(Login.this," Bienvenido ", Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONObject user = response.getJSONObject("user");
+                    String name = user.getString("name");
+                    String lastname = user.getString("lastname");
+                    String email = user.getString("email");
+                    String pesos = user.getString("pesos");
+                    String dolares = user.getString("dolares");
+
+               // Toast.makeText(Login.this," Bienvenido " + name, Toast.LENGTH_SHORT).show();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+                SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                myEdit.putString("name", name);
+                myEdit.putString("lastname", lastname);
+                myEdit.putString("email", email);
+                myEdit.putInt("pesos", Integer.parseInt(pesos));
+                myEdit.putInt("dolares", Integer.parseInt(dolares));
+                myEdit.commit();
 
                 Intent i = new Intent(Login.this,StartActivity.class);
                 startActivity(i);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
 
             }

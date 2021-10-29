@@ -2,6 +2,7 @@ package ar.test.banco;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,8 +27,7 @@ import static androidx.core.content.ContextCompat.getSystemService;
  */
 public class Inversion extends Fragment {
 
-    EditText textoIngreso;
-    TextView plazoFinal;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,14 +78,30 @@ public class Inversion extends Fragment {
         // Inflate the layout for this fragment
 
 
+
+
       View view= inflater.inflate(R.layout.inversion, container, false);
-        textoIngreso=(EditText)view.findViewById(R.id.textoIngreso);
+
+        TextView plazoFinal;
+
+        EditText textoIngresoValor=(EditText)view.findViewById(R.id.textoIngreso);
         plazoFinal=(TextView)view.findViewById(R.id.plazoFinal);
 
 
+        SharedPreferences sh = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String nombre = sh.getString("name", "");
+        String apellido = sh.getString("lastname", "");
+        String email = sh.getString("email", "");
+        int pesos = sh.getInt("pesos",0);
+        int dolares = sh.getInt("dolares",0);
 
-        Button invertirButton = (Button) view.findViewById(R.id.invertir);
-        Button button = (Button) view.findViewById(R.id.calcular);
+        Button invertirButton =  view.findViewById(R.id.invertir);
+        Button btnCalcular = view.findViewById(R.id.calcular);
+        TextView totalCuentaValor =view.findViewById(R.id.totalCuentaValor);
+
+        totalCuentaValor.setText("$"+Integer.toString(pesos));
+
+
 
         invertirButton.setOnClickListener(new View.OnClickListener()
         {
@@ -92,8 +109,33 @@ public class Inversion extends Fragment {
             public void onClick(View v)
             {
 
-                    Snackbar snackBar = Snackbar .make(v, "INVERSION REALIZADA CON EXITO", Snackbar.LENGTH_LONG)
-                            .setAction(" ENVIAR MAIL", new View.OnClickListener() {
+                if(textoIngresoValor.getText().toString().equals("") || textoIngresoValor.getText().toString().equals("0")) {
+                    Snackbar snackBar = Snackbar .make(v, "INGRESE UN VALOR", Snackbar.LENGTH_LONG);
+
+
+                    snackBar.show();
+                    return;
+                }
+
+
+                int textoIngresoInt = Integer.parseInt(textoIngresoValor.getText().toString());
+
+
+
+                if (textoIngresoInt>pesos){
+                    Snackbar snackBar = Snackbar .make(v, "NO POSEE DINERO SUFICIENTE EN LA CUENTA", Snackbar.LENGTH_LONG);
+                          /*  .setAction(" ENVIAR MAIL", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                }
+                            });*/
+
+                    snackBar.show();
+
+                }else{
+
+                    Snackbar snackBar = Snackbar .make(v, "INVERSION REALIZADA!", Snackbar.LENGTH_LONG)
+                          .setAction(" ENVIAR MAIL", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                 }
@@ -101,10 +143,14 @@ public class Inversion extends Fragment {
 
                     snackBar.show();
 
+                }
+
+
+
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener()
+        btnCalcular.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -112,11 +158,16 @@ public class Inversion extends Fragment {
 
 
                 try {
-                    String valor = textoIngreso.getText().toString();
-                    int numero= Integer.parseInt(valor);
-                    double plazo=  (numero*37/100/12) + (numero);
+
+
+                    Double numero= Double.valueOf(textoIngresoValor.getText().toString());
+
+                    Double number=(numero*37/100/12)+numero;
+
+                    //Toast.makeText(getContext(),""+number,Toast.LENGTH_SHORT).show();
+                    double plazo=  Math.round(number * 100.0) / 100.0;
                     String plazoText = Double.toString(plazo);
-                    plazoFinal.setText(plazoText);
+                    plazoFinal.setText("$"+plazoText);
 
                     InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
@@ -124,10 +175,6 @@ public class Inversion extends Fragment {
                 }catch (Exception e){
                     plazoFinal.setText("0");
                 }
-
-
-
-
 
             }
         });

@@ -37,28 +37,30 @@
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:gravity="center"
-            android:text="CLIENTE CAJA AHORRO" />
+            android:text="USUARIO" />
 
         <TextView
+            android:id="@+id/user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:drawable/bottom_bar"
             android:textColor="@color/white"
             android:gravity="center"
-            android:text="Numero: 3456-7897"
             android:textSize="25sp" />
 
         <ImageView
+            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:src="@drawable/turnos"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp">
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp">
 
         </ImageView>
 
     </LinearLayout>
-<!--
+
+  <!--
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"

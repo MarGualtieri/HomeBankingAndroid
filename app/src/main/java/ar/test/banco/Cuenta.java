@@ -1,5 +1,7 @@
 package ar.test.banco;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +61,28 @@ public class Cuenta extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.cuenta, container, false);
+
+       View view=  inflater.inflate(R.layout.cuenta, container, false);
+
+        SharedPreferences sh = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String nombre = sh.getString("name", "");
+        String apellido = sh.getString("lastname", "");
+        String email = sh.getString("email", "");
+        int pesos = sh.getInt("pesos",0);
+        int dolares = sh.getInt("dolares",0);
+
+        EditText nameCuenta=view.findViewById(R.id.nameCuenta);
+        EditText lastnameCuenta=view.findViewById(R.id.lastnameCuenta);
+        EditText pesosCuenta=view.findViewById(R.id.pesosCuenta);
+        EditText dolaresCuenta=view.findViewById(R.id.dolaresCuenta);
+
+        nameCuenta.setText(nombre);
+        lastnameCuenta.setText(apellido);
+        pesosCuenta.setText(Integer.toString(pesos));
+        dolaresCuenta.setText(Integer.toString(dolares));
+
+
+
+        return view;
     }
 }
