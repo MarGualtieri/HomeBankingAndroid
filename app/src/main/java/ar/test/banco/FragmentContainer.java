@@ -1,16 +1,27 @@
 package ar.test.banco;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,6 +29,10 @@ import android.widget.Toast;
  * create an instance of this fragment.
  */
 public class FragmentContainer extends Fragment {
+
+    TabLayout table;
+    ViewPager2 viewPager;
+    FragmentAdapter adapter;
 
 
     TextView userInicio;
@@ -61,32 +76,56 @@ public class FragmentContainer extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-      //  Bundle bundle = this.getArguments();
-       // String username = bundle.getString("username");
 
-        Toast.makeText(getContext(), "Nombre en fragment es:" +mParam1 + mParam2 , Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(getContext(), "Nombre en fragment es:" + mParam1 + mParam2, Toast.LENGTH_SHORT).show();
         View view = inflater.inflate(R.layout.fragment_container, container, false);
 
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String value = sharedPreferences.getString("email","");
         userInicio = view.findViewById(R.id.userInicio);
-        userInicio.setText("usuario");
+        userInicio.setText(value);
 
 
-   /*
-    cuentaBoton = (ImageButton) view.findViewById(R.id.cuentaBoton3);
 
-        cuentaBoton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Navigation.findNavController(v).navigate(R.id.action_fragmentContainer_to_cuenta2);
-        }
-    });
+
+/*
+        FragmentActivity myContext = null;
+        table = view.findViewById(R.id.tab_layout);
+        viewPager = view.findViewById(R.id.pager);
+        FragmentManager fragManager = myContext.getSupportFragmentManager();
+        adapter = new FragmentAdapter(fragManager, getLifecycle());
+        viewPager.setAdapter(adapter);
+        table.addTab(table.newTab().setText("first"));
+        table.addTab(table.newTab().setText("second"));
+        table.addTab(table.newTab().setText("third"));
+
+        table.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
+
 */
         return view;
     }
+/*
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText("OBJECT " + (position + 1))
+        ).attach();
+    }*/
+
 }
+
+
+
+
+
