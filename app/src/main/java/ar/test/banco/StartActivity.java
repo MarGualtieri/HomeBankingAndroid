@@ -46,6 +46,7 @@ public class StartActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Nombreen start es: " + username , Toast.LENGTH_SHORT).show();
 
 
+
         Fragment fragment = new Fragment();
         Bundle bundle = new Bundle();
         bundle.putString("username",username);
@@ -53,6 +54,7 @@ public class StartActivity extends AppCompatActivity {
 
         // poner a la escucha al boton home
         home.setOnClickListener(new View.OnClickListener() {
+
 
             @Override
             public void onClick(View v) {

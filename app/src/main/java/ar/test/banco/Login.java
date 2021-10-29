@@ -1,43 +1,42 @@
 package ar.test.banco;
 
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+
 
 import android.content.Intent;
+
 import android.os.Bundle;
 
 import android.text.TextUtils;
-import android.view.View;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import ar.test.banco.Retrofit.IMyService;
-import ar.test.banco.Retrofit.RetrofitClient;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 
 
 public class Login extends AppCompatActivity {
 
-    EditText user;
+    EditText email;
     EditText password;
     Button btnLogin;
     Button btnRegister;
 
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
-    IMyService iMyService;
 
 
-    @Override
-    protected void onStop() {
-        compositeDisposable.clear();
-        super.onStop();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +44,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-        //init service
-        Retrofit retrofitClient = RetrofitClient.getInstance();
-        iMyService = retrofitClient.create(IMyService.class);
-
-        //init view
-
-
-        user = findViewById(R.id.username);
+        email = findViewById(R.id.emailLogin);
         password = findViewById(R.id.password);
         btnLogin = findViewById(R.id.logEnter);
         btnRegister = findViewById(R.id.btnRegister);
@@ -67,50 +59,82 @@ public class Login extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> {
 
-
-            Fragment fragment = new Fragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("username", user.getText().toString());
-            fragment.setArguments(bundle);
-
-
-            loginUser(user.getText().toString(), password.getText().toString(),bundle);
-
-
-
-
+            loginUser(email.getText().toString(), password.getText().toString());
 
         });
 
     }
 
-    private void loginUser(String user, String password, Bundle bundle) {
+    private void loginUser(String email, String password) {
 
-        if(TextUtils.isEmpty(user)){
-            Toast.makeText(getApplicationContext(), "Username is Empty", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+
+
         if(TextUtils.isEmpty(password)){
             Toast.makeText(getApplicationContext(), "password is Empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Intent next = new Intent(Login.this, StartActivity.class);
-        next.putExtras(bundle);
-        startActivity(next);
+       if(TextUtils.isEmpty(email)) {
+            Toast.makeText(getApplicationContext(),"enter email address",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else {
+            if (email.trim().matches(emailPattern)) {
 
-        compositeDisposable.add(iMyService.loginUser(user,password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe (new Consumer<String>(){
-                    @Override
-                    public void accept(String response) throws  Exception{
-                        Toast.makeText(getApplicationContext(), ""+response, Toast.LENGTH_SHORT).show();
-                    }
+                getData(email,password);
 
-                    }));
+            } else {
+                Toast.makeText(getApplicationContext(),"Invalid email address", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
 
     }
+    private void getData(String emailData, String pass) {
 
+
+        RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
+
+        String postUrl =  "https://homebancking.herokuapp.com/users/login";
+        JSONObject postData = new JSONObject();
+
+        try {
+
+            postData.put("email", emailData);
+            postData.put("password", pass);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+
+
+            @Override
+            public void onResponse(JSONObject response) {
+                 Toast.makeText(Login.this," Bienvenido ", Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(Login.this,StartActivity.class);
+                startActivity(i);
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                //error.printStackTrace();
+                Toast.makeText(Login.this, " VERIFIQUE SUS DATOS" , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
 
 }

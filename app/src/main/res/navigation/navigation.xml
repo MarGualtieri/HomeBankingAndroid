@@ -15,7 +15,9 @@
             app:destination="@id/cuenta2" />
         <action
             android:id="@+id/action_fragmentContainer_to_tarjeta2"
-            app:destination="@id/tarjeta2" />
+            app:destination="@id/tarjeta2"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_fragmentContainer_to_inversion2"
             app:destination="@id/inversion2" />
