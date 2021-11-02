@@ -35,6 +35,12 @@ public class StartActivity extends AppCompatActivity {
     ImageButton close;
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +49,13 @@ public class StartActivity extends AppCompatActivity {
 
 
         // conectar boton home
-        home =  findViewById(R.id.home);
+        home = findViewById(R.id.home);
         close = findViewById(R.id.close);
 
         Button cuenta = findViewById(R.id.btnCuenta);
         Button tarjeta = findViewById(R.id.btnTarjeta);
         Button inversion = findViewById(R.id.btnInversion);
-        EditText userName= findViewById(R.id.userName);
-
+        TextView userName = findViewById(R.id.userName);
 
 
         cuenta.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +63,7 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Fragment cuentaFragment = new Cuenta();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView,cuentaFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, cuentaFragment).commit();
             }
         });
         tarjeta.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +71,7 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Fragment tarjetaFragment = new Tarjeta();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView,tarjetaFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, tarjetaFragment).commit();
 
 
             }
@@ -76,24 +81,24 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Fragment inversionFragment = new Inversion();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView,inversionFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, inversionFragment).commit();
             }
         });
 
 
         // assigning ID of the toolbar to a variable
-       Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         // using toolbar as ActionBar
-       setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
 
-       // recuperar el dato desde login
+        // recuperar el dato desde login
         SharedPreferences sh = getSharedPreferences("data", MODE_PRIVATE);
         String nombre = sh.getString("name", "");
         String apellido = sh.getString("lastname", "");
-        int pesos = sh.getInt("pesos",0);
-        int dolares = sh.getInt("dolares",0);
+        int pesos = sh.getInt("pesos", 0);
+        int dolares = sh.getInt("dolares", 0);
 
         userName.setText(nombre);
 
@@ -103,12 +108,12 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               FragmentContainer init = new FragmentContainer();
-               getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView,init).commit();
+                FragmentContainer init = new FragmentContainer();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, init).commit();
 
             }
 
-            });
+        });
 
 
         close.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +136,7 @@ public class StartActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                Intent i= new Intent(StartActivity.this,Login.class);
+                                Intent i = new Intent(StartActivity.this, Login.class);
                                 startActivity(i);
                                 finish();
                             }

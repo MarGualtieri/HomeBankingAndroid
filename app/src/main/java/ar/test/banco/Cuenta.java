@@ -78,8 +78,8 @@ public class Cuenta extends Fragment {
 
         nameCuenta.setText(nombre);
         lastnameCuenta.setText(apellido);
-        pesosCuenta.setText(Integer.toString(pesos));
-        dolaresCuenta.setText(Integer.toString(dolares));
+        pesosCuenta.setText("$ "+Integer.toString(pesos));
+        dolaresCuenta.setText("u$s "+Integer.toString(dolares));
 
 
 
