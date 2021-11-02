@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import android.text.TextUtils;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -141,7 +142,9 @@ public class Login extends AppCompatActivity {
                 myEdit.commit();
 
                 Intent i = new Intent(Login.this,StartActivity.class);
+                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
                 startActivity(i);
+                finish();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

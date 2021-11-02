@@ -33,13 +33,13 @@
         android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/ingresarMonto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/totalCuentaValor"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
-        android:text="SIMULADOR PLAZO FIJO"
+        android:text="INGRESE MONTO A INVERTIR"
         android:textColor="@color/black"
         android:textSize="25sp" />
 
@@ -47,22 +47,33 @@
         android:id="@+id/textoIngreso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/calcular"
+        android:layout_below="@+id/ingresarMonto"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:cursorVisible="false"
         android:ems="10"
         android:gravity="center_horizontal"
         android:hint="$"
         android:inputType="numberDecimal" />
 
-    <TextView
-        android:id="@+id/textView4"
+    <Button
+        android:id="@+id/calcular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textoIngreso"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
+        android:text="CALCULAR
+" />
+
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calcular"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
         android:text="Su Ganancia es:"
         android:textColor="@color/black"
         android:textSize="25sp" />
@@ -80,24 +91,13 @@
         android:textSize="25sp" />
 
     <Button
-        android:id="@+id/calcular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:text="CALCULAR
-" />
-
-    <Button
         android:id="@+id/invertir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/plazoFinal"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:layout_marginBottom="161dp"
-        android:text="INVERTIR
-" />
+        android:layout_marginBottom="50dp"
+        android:text="INVERTIR" />
 
 </RelativeLayout>
