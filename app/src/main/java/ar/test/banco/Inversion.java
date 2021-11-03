@@ -16,9 +16,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 
 import static androidx.core.content.ContextCompat.getSystemService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -108,7 +117,6 @@ public class Inversion extends Fragment {
                 if(textoIngresoValor.getText().toString().equals("") || textoIngresoValor.getText().toString().equals("0")) {
                     Snackbar snackBar = Snackbar .make(v, "INGRESE UN VALOR", Snackbar.LENGTH_LONG);
 
-
                     snackBar.show();
                     return;
                 }
@@ -130,14 +138,17 @@ public class Inversion extends Fragment {
 
                 }else{
 
-                    Snackbar snackBar = Snackbar .make(v, "INVERSION REALIZADA!", Snackbar.LENGTH_LONG)
-                          .setAction(" ENVIAR MAIL", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                }
-                            });
-
+                    Snackbar snackBar = Snackbar .make(v, "INVERSION REALIZADA!", Snackbar.LENGTH_LONG);
                     snackBar.show();
+
+                    SharedPreferences sh = getContext().getSharedPreferences("data", Context.MODE_PRIVATE);
+                    String nombre = sh.getString("name", "");
+                    String apellido = sh.getString("lastname", "");
+                    String email = sh.getString("email", "");
+                    int pesos = sh.getInt("pesos", 0);
+                    int dolares = sh.getInt("dolares", 0);
+
+                    getData(email,pesos,textoIngresoInt);
 
                 }
 
@@ -180,5 +191,69 @@ public class Inversion extends Fragment {
     }
 
 
+
+    private void getData(String emailData, int pesosData,int textoIngresoValor) {
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        String postUrl =  "https://homebancking.herokuapp.com/users/login";
+        JSONObject postData = new JSONObject();
+
+        try {
+
+            postData.put("email", emailData);
+            Double pesosFinales = Double.valueOf(textoIngresoValor- pesosData);
+            postData.put("pesos", pesosFinales);
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    JSONObject user = response.getJSONObject("user");
+                    String name = user.getString("name");
+                    String lastname = user.getString("lastname");
+                    String email = user.getString("email");
+                    String pesos = user.getString("pesos");
+                    String dolares = user.getString("dolares");
+                    String token = response.getString("token");
+
+                    Intent i = new Intent(getContext(),StartActivity.class);
+                    startActivity(i);
+                    //Toast.makeText(Login.this," Bienvenido " + token, Toast.LENGTH_SHORT).show();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                //error.printStackTrace();
+                Toast.makeText(getContext(), " VERIFIQUE SUS DATOS" , Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getContext(),StartActivity.class);
+                startActivity(i);
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
 
 }
