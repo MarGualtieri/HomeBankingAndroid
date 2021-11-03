@@ -68,6 +68,7 @@ public class Cuenta extends Fragment {
         String nombre = sh.getString("name", "");
         String apellido = sh.getString("lastname", "");
         String email = sh.getString("email", "");
+        String token = sh.getString("token", "");
         int pesos = sh.getInt("pesos",0);
         int dolares = sh.getInt("dolares",0);
 

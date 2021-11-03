@@ -129,16 +129,19 @@ public class Login extends AppCompatActivity {
                     String email = user.getString("email");
                     String pesos = user.getString("pesos");
                     String dolares = user.getString("dolares");
+                    String token = response.getString("token");
 
-               // Toast.makeText(Login.this," Bienvenido " + name, Toast.LENGTH_SHORT).show();
+               //Toast.makeText(Login.this," Bienvenido " + token, Toast.LENGTH_SHORT).show();
 
                 SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
                 myEdit.putString("name", name);
                 myEdit.putString("lastname", lastname);
                 myEdit.putString("email", email);
+                myEdit.putString("token", token);
                 myEdit.putInt("pesos", Integer.parseInt(pesos));
                 myEdit.putInt("dolares", Integer.parseInt(dolares));
+
                 myEdit.commit();
 
                 Intent i = new Intent(Login.this,StartActivity.class);

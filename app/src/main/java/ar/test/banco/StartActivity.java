@@ -26,13 +26,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class StartActivity extends AppCompatActivity {
 
     ImageButton home;
     ImageButton close;
+
 
 
     @Override
@@ -46,6 +60,17 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+
+        SharedPreferences sh = getSharedPreferences("data", MODE_PRIVATE);
+        String nombre = sh.getString("name", "");
+        String apellido = sh.getString("lastname", "");
+        String email = sh.getString("email", "");
+        int pesos = sh.getInt("pesos", 0);
+        int dolares = sh.getInt("dolares", 0);
+
+        getData(email);
+
 
 
         // conectar boton home
@@ -94,11 +119,7 @@ public class StartActivity extends AppCompatActivity {
 
 
         // recuperar el dato desde login
-        SharedPreferences sh = getSharedPreferences("data", MODE_PRIVATE);
-        String nombre = sh.getString("name", "");
-        String apellido = sh.getString("lastname", "");
-        int pesos = sh.getInt("pesos", 0);
-        int dolares = sh.getInt("dolares", 0);
+
 
         userName.setText(nombre);
 
@@ -136,6 +157,16 @@ public class StartActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
+                                SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+                                SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                                myEdit.putString("name", "");
+                                myEdit.putString("lastname", "");
+                                myEdit.putString("email", "");
+                                myEdit.putString("token", "");
+                                myEdit.putInt("pesos", 0);
+                                myEdit.putInt("dolares", 0);
+                                myEdit.commit();
+
                                 Intent i = new Intent(StartActivity.this, Login.class);
                                 startActivity(i);
                                 finish();
@@ -152,4 +183,62 @@ public class StartActivity extends AppCompatActivity {
 
 
     }
-}
+
+    private void getData(String emailData) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(StartActivity.this);
+
+
+        String postUrl =  "https://homebancking.herokuapp.com/users/login";
+        JSONObject postData = new JSONObject();
+
+        try {
+
+            postData.put("email", emailData);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    JSONObject user = response.getJSONObject("user");
+                    String name = user.getString("name");
+                    String lastname = user.getString("lastname");
+                    String email = user.getString("email");
+                    String pesos = user.getString("pesos");
+                    String dolares = user.getString("dolares");
+                    String token = response.getString("token");
+
+
+                    //Toast.makeText(Login.this," Bienvenido " + token, Toast.LENGTH_SHORT).show();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                //error.printStackTrace();
+                Toast.makeText(StartActivity.this, " VERIFIQUE SUS DATOS en StartActivity" , Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
+
+    }
