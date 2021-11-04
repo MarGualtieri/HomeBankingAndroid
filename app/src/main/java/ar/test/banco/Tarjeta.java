@@ -3,10 +3,15 @@ package ar.test.banco;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +64,27 @@ public class Tarjeta extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.tarjeta, container, false);
+        View view =inflater.inflate(R.layout.tarjeta, container, false);
+
+
+        List<ListElement> elements;
+        elements = new ArrayList<>();
+        elements.add(new ListElement("black","12/05/2021","$2345","Active"));
+        elements.add(new ListElement("black","08/06/2021","$234","Active"));
+        elements.add(new ListElement("black","23/23/2021","$105262","Active"));
+        elements.add(new ListElement("black","18/04/2020","$236","Cancel"));
+        elements.add(new ListElement("black","30/06/2019","$654","Cancel"));
+        elements.add(new ListElement("black","08/06/2021","$234","Active"));
+        elements.add(new ListElement("black","01/01/2015","$111","Cancel"));
+
+        ListAdapter listAdapter = new ListAdapter(elements,getContext());
+        RecyclerView recyclerView = view.findViewById(R.id.listRecycler);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(listAdapter);
+
+
+
+      return view;
     }
 }
