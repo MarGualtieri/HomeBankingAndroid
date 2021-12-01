@@ -48,15 +48,41 @@
             android:gravity="center"
             android:textSize="25sp" />
 
-        <ImageView
-            android:layout_marginTop="30dp"
+        <ViewFlipper
+            android:id="@+id/simpleViewFlipper"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/turnos"
-            android:paddingRight="20dp"
-            android:paddingLeft="20dp">
+            android:layout_height="wrap_content"
+            >
+            >
 
-        </ImageView>
+            <ImageView
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/foto1"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp">
+            </ImageView>
+            <ImageView
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/foto2"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp">
+            </ImageView>
+            <ImageView
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/foto3"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp">
+            </ImageView>
+
+        </ViewFlipper>
+
+
 
     </LinearLayout>
 

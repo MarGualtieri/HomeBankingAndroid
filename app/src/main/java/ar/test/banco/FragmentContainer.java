@@ -14,7 +14,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -85,6 +88,20 @@ public class FragmentContainer extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_container, container, false);
+
+        ViewFlipper simpleViewFlipper = view.findViewById(R.id.simpleViewFlipper); // get the reference of ViewFlipper
+        //simpleViewFlipper.startFlipping();
+
+        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+        // set the animation type's to ViewFlipper
+        simpleViewFlipper.setInAnimation(in);
+        simpleViewFlipper.setOutAnimation(out);
+        // set interval time for flipping between views
+        simpleViewFlipper.setFlipInterval(2000);
+        // set auto start for flipping between views
+        simpleViewFlipper.setAutoStart(true);
+
 
         SharedPreferences sh = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         String nombre = sh.getString("name", "");
