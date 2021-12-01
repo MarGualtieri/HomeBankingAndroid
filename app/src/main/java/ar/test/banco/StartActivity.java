@@ -46,6 +46,7 @@ public class StartActivity extends AppCompatActivity {
 
     ImageButton home;
     ImageButton close;
+    TextView titleInfo;
 
 
 
@@ -76,12 +77,23 @@ public class StartActivity extends AppCompatActivity {
         // conectar boton home
         home = findViewById(R.id.home);
         close = findViewById(R.id.close);
+        titleInfo=findViewById(R.id.titleInfo);
 
         Button cuenta = findViewById(R.id.btnCuenta);
         Button tarjeta = findViewById(R.id.btnTarjeta);
         Button inversion = findViewById(R.id.btnInversion);
         TextView userName = findViewById(R.id.userName);
 
+        titleInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FragmentManager fm = getSupportFragmentManager();
+                Information miDialogo = Information.newInstance("Some Title");
+                miDialogo.show(fm, "fragment_edit_name");
+
+            }
+        });
 
         cuenta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,40 +213,80 @@ public class StartActivity extends AppCompatActivity {
         }
 
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                postUrl,
+                postData,
+                new Response.Listener<JSONObject>() {
 
 
-            @Override
-            public void onResponse(JSONObject response) {
+                    @Override
+                    public void onResponse(JSONObject response) {
 
-                try {
-                    JSONObject user = response.getJSONObject("user");
-                    String name = user.getString("name");
-                    String lastname = user.getString("lastname");
-                    String email = user.getString("email");
-                    String pesos = user.getString("pesos");
-                    String dolares = user.getString("dolares");
-                    String token = response.getString("token");
-
-
-                    //Toast.makeText(Login.this," Bienvenido " + token, Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject user = response.getJSONObject("user");
+                            String name = user.getString("name");
+                            String lastname = user.getString("lastname");
+                            String email = user.getString("email");
+                            String pesos = user.getString("pesos");
+                            String dolares = user.getString("dolares");
+                            String token = response.getString("token");
 
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                            //Toast.makeText(Login.this," Bienvenido " + token, Toast.LENGTH_SHORT).show();
 
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+           /* @Override
             public void onErrorResponse(VolleyError error) {
 
                 //error.printStackTrace();
                 Toast.makeText(StartActivity.this, " VERIFIQUE SUS DATOS en StartActivity" , Toast.LENGTH_SHORT).show();
 
-            }
-        });
+            }*/
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        error.printStackTrace();
+                        Toast.makeText(getApplicationContext(), " VERIFIQUE SUS DATOS", Toast.LENGTH_SHORT).show();
+                        //  Intent i = new Intent(getApplicationContext(), StartActivity.class);
+                        // startActivity(i);
+                    }
+
+                    // Providing Request Headers
+
+
+                  /*  public Map<String, String> getParams() throws
+                            com.android.volley.AuthFailureError {
+                        Map<String, String> headers = new HashMap<String, String>();
+                        headers.put("Content-Type", "aplication/json");
+                        headers.put("Authorization",token);
+                        return headers;
+
+                    };*/
+
+                })
+
+        {  @Override
+        public Map<String,String> getHeaders() throws AuthFailureError{
+            Toast.makeText(getApplicationContext(), " entro al header", Toast.LENGTH_SHORT).show();
+            HashMap headers = new HashMap();
+            headers.put("Content-Type", "application/json; charset=UTF-8");
+            headers.put("Authorization","");
+            return headers;
+        }}
+
+
+                ;
+
+
 
         requestQueue.add(jsonObjectRequest);
 

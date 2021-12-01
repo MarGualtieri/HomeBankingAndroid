@@ -28,16 +28,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
-
 public class Login extends AppCompatActivity {
 
     EditText email;
     EditText password;
     Button btnLogin;
     Button btnRegister;
-
-
+    Conector data = new Conector();
 
 
     @Override
@@ -52,9 +49,6 @@ public class Login extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
 
 
-
-
-
         btnRegister.setOnClickListener(v -> {
 
             Intent next = new Intent(Login.this, Register.class);
@@ -64,7 +58,13 @@ public class Login extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> {
 
+            // Toast.makeText(getApplicationContext(), "soy null", Toast.LENGTH_SHORT).show();
+
             loginUser(email.getText().toString(), password.getText().toString());
+
+
+            /// data.conector(email.getText().toString(), password.getText().toString());
+
 
         });
 
@@ -75,34 +75,33 @@ public class Login extends AppCompatActivity {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
 
-
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(getApplicationContext(), "password is Empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
-       if(TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(),"enter email address",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(getApplicationContext(), "enter email address", Toast.LENGTH_SHORT).show();
             return;
-        }
-        else {
+        } else {
             if (email.trim().matches(emailPattern)) {
 
-                getData(email,password);
+                getData(email, password);
 
             } else {
-                Toast.makeText(getApplicationContext(),"Invalid email address", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
 
     }
+
     private void getData(String emailData, String pass) {
 
 
         RequestQueue requestQueue = Volley.newRequestQueue(Login.this);
 
-        String postUrl =  "https://homebancking.herokuapp.com/users/login";
+        String postUrl = "https://homebancking.herokuapp.com/users/login";
         JSONObject postData = new JSONObject();
 
         try {
@@ -116,24 +115,20 @@ public class Login extends AppCompatActivity {
         }
 
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, response -> {
 
+            try {
+                JSONObject user = response.getJSONObject("user");
+                String name = user.getString("name");
+                String lastname = user.getString("lastname");
+                String email = user.getString("email");
+                String pesos = user.getString("pesos");
+                String dolares = user.getString("dolares");
+                String token = response.getString("token");
 
-            @Override
-            public void onResponse(JSONObject response) {
+                //Toast.makeText(Login.this," Bienvenido " + token, Toast.LENGTH_SHORT).show();
 
-                try {
-                    JSONObject user = response.getJSONObject("user");
-                    String name = user.getString("name");
-                    String lastname = user.getString("lastname");
-                    String email = user.getString("email");
-                    String pesos = user.getString("pesos");
-                    String dolares = user.getString("dolares");
-                    String token = response.getString("token");
-
-               //Toast.makeText(Login.this," Bienvenido " + token, Toast.LENGTH_SHORT).show();
-
-                SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
                 myEdit.putString("name", name);
                 myEdit.putString("lastname", lastname);
@@ -144,24 +139,20 @@ public class Login extends AppCompatActivity {
 
                 myEdit.commit();
 
-                Intent i = new Intent(Login.this,StartActivity.class);
+                Intent i = new Intent(Login.this, StartActivity.class);
                 findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
                 startActivity(i);
                 finish();
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
 
-                //error.printStackTrace();
-                Toast.makeText(Login.this, " VERIFIQUE SUS DATOS" , Toast.LENGTH_SHORT).show();
-            }
+
+        }, error -> {
+
+            //error.printStackTrace();
+            Toast.makeText(Login.this, " VERIFIQUE SUS DATOS", Toast.LENGTH_SHORT).show();
         });
 
         requestQueue.add(jsonObjectRequest);

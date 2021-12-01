@@ -212,6 +212,7 @@ public class Inversion extends Fragment {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
                 postUrl,
                 postData,
+
                 new Response.Listener<JSONObject>() {
 
 
@@ -257,8 +258,8 @@ public class Inversion extends Fragment {
                         headers.put("Authorization",token);
                         return headers;
                     }
-                    /*
-                    public Map<String, String> getParams() throws
+
+                  /*  public Map<String, String> getParams() throws
                             com.android.volley.AuthFailureError {
                         Map<String, String> headers = new HashMap<String, String>();
                         headers.put("Content-Type", "aplication/json");
