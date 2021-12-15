@@ -1,6 +1,7 @@
 package ar.test.banco;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -10,6 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +66,87 @@ public class Cuenta extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        SharedPreferences sh = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String email = sh.getString("email", "");
+        String nombre = sh.getString("name", "");
+        String apellido = sh.getString("lastname", "");
+        String token = sh.getString("token", "");
+        int pesos = sh.getInt("pesos",0);
+        int dolares = sh.getInt("dolares",0);
+
+
+
+      //  getData(email);
+
+    }
+
+    private void getData(String email) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        String postUrl = "https://homebancking.herokuapp.com/users/cuenta"; //
+        JSONObject postData = new JSONObject();
+
+        try {
+
+            postData.put("email", email);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, postUrl, postData, response -> {
+
+            try {
+                JSONObject user = response.getJSONObject("user");
+                String name = user.getString("name");
+                String lastname = user.getString("lastname");
+                String emailNuevo = user.getString("email");
+                int pesos = user.getInt("pesos");
+                int dolares = user.getInt("dolares");
+                String token = response.getString("token");
+
+                SharedPreferences sh = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+                SharedPreferences.Editor myEdit = sh.edit();
+                myEdit.putString("name", name);
+                myEdit.putString("lastname", lastname);
+                myEdit.putString("email", emailNuevo);
+                myEdit.putString("token", token);
+                myEdit.putInt("pesos", pesos);
+                myEdit.putInt("dolares", dolares);
+                myEdit.commit();
+                //Toast.makeText(Login.this," Bienvenido " + token, Toast.LENGTH_SHORT).show();
+
+              /*  SharedPreferences sh = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+                SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                myEdit.putString("name", name);
+                myEdit.putString("lastname", lastname);
+                myEdit.putString("email", emialNuevo);
+                myEdit.putString("token", token);
+                myEdit.putInt("pesos", Integer.parseInt(pesos));
+                myEdit.putInt("dolares", Integer.parseInt(dolares));
+
+                myEdit.commit();*/
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }, error -> {
+
+            //error.printStackTrace();
+            //Toast.makeText(Login.this, " VERIFIQUE SUS DATOS", Toast.LENGTH_SHORT).show();
+        });
+
+        requestQueue.add(jsonObjectRequest);
+
+
     }
 
     @Override
@@ -72,10 +163,10 @@ public class Cuenta extends Fragment {
         int pesos = sh.getInt("pesos",0);
         int dolares = sh.getInt("dolares",0);
 
-        EditText nameCuenta=view.findViewById(R.id.nameCuenta);
-        EditText lastnameCuenta=view.findViewById(R.id.lastnameCuenta);
-        EditText pesosCuenta=view.findViewById(R.id.pesosCuenta);
-        EditText dolaresCuenta=view.findViewById(R.id.dolaresCuenta);
+        TextView nameCuenta=view.findViewById(R.id.nameCuenta);
+        TextView lastnameCuenta=view.findViewById(R.id.lastnameCuenta);
+        TextView pesosCuenta=view.findViewById(R.id.pesosCuenta);
+        TextView dolaresCuenta=view.findViewById(R.id.dolaresCuenta);
 
         nameCuenta.setText(nombre);
         lastnameCuenta.setText(apellido);

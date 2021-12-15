@@ -152,7 +152,7 @@ public class Login extends AppCompatActivity {
         }, error -> {
 
             //error.printStackTrace();
-            Toast.makeText(Login.this, " VERIFIQUE SUS DATOS", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(Login.this, " VERIFIQUE SUS DATOS", Toast.LENGTH_SHORT).show();
         });
 
         requestQueue.add(jsonObjectRequest);

@@ -1,6 +1,7 @@
 package ar.test.banco;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -19,8 +20,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +45,7 @@ public class FragmentContainer extends Fragment {
 
     TextView userInicio;
     TextView user;
+    TextView dolarBlue;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -78,8 +88,6 @@ public class FragmentContainer extends Fragment {
         }
 
 
-
-
     }
 
     @Override
@@ -103,17 +111,58 @@ public class FragmentContainer extends Fragment {
         simpleViewFlipper.setAutoStart(true);
 
 
+
+
         SharedPreferences sh = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         String nombre = sh.getString("name", "");
         String apellido = sh.getString("lastname", "");
         String email = sh.getString("email", "");
-        int pesos = sh.getInt("pesos",0);
-        int dolares = sh.getInt("dolares",0);
+        int pesos = sh.getInt("pesos", 0);
+        int dolares = sh.getInt("dolares", 0);
+
 
         userInicio = view.findViewById(R.id.userInicio);
         userInicio.setText(nombre);
         user = view.findViewById(R.id.user);
         user.setText(email);
+
+
+        /*dolarBlue = view.findViewById(R.id.dolarBlue);
+         dolarBlue.setText(blue);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        String postUrl = "https://www.dolarsi.com/api/api.php?type=valoresprincipales";
+        JSONObject postData = new JSONObject();
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, postData, postUrl, response -> {
+
+            try {
+                JSONArray jsonArray = response.getJSONArray("data");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String email = jsonObject.getString("email");
+                    jsonResponses.add(email);
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }, error -> {
+
+            //error.printStackTrace();
+            //Toast.makeText(Login.this, " VERIFIQUE SUS DATOS", Toast.LENGTH_SHORT).show();
+        });
+
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
+*/
 
 // TAB ///////////////////////////////////////////////
 
@@ -156,7 +205,7 @@ public class FragmentContainer extends Fragment {
         });*/
 
         return view;
-    }
+}
 
 /*
     @Override

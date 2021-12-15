@@ -116,7 +116,7 @@ public class Conector extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
                 //error.printStackTrace();
-                Toast.makeText(Conector.this, " VERIFIQUE SUS DATOS" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Conector.this, " VERIFIQUE SUS DATOS" , Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -70,6 +71,16 @@ public class StartActivity extends AppCompatActivity {
         int pesos = sh.getInt("pesos", 0);
         int dolares = sh.getInt("dolares", 0);
 
+
+
+        SharedPreferences.Editor myEdit = sh.edit();
+        myEdit.putString("name", nombre);
+        myEdit.putString("lastname", apellido);
+        myEdit.putString("email", email);
+        myEdit.putInt("pesos", pesos);
+        myEdit.putInt("dolares", dolares);
+        myEdit.commit();
+
         getData(email);
 
 
@@ -98,6 +109,14 @@ public class StartActivity extends AppCompatActivity {
         cuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                SharedPreferences sh = getSharedPreferences("data", MODE_PRIVATE);
+                String nombre = sh.getString("name", "");
+                String apellido = sh.getString("lastname", "");
+                String email = sh.getString("email", "");
+                int pesos = sh.getInt("pesos", 0);
+                int dolares = sh.getInt("dolares", 0);
+                getData(email);
 
                 Fragment cuentaFragment = new Cuenta();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, cuentaFragment).commit();
@@ -255,7 +274,7 @@ public class StartActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-                        Toast.makeText(getApplicationContext(), " VERIFIQUE SUS DATOS", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplicationContext(), " VERIFIQUE SUS DATOS", Toast.LENGTH_SHORT).show();
                         //  Intent i = new Intent(getApplicationContext(), StartActivity.class);
                         // startActivity(i);
                     }
@@ -281,10 +300,7 @@ public class StartActivity extends AppCompatActivity {
             headers.put("Content-Type", "application/json; charset=UTF-8");
             headers.put("Authorization","");
             return headers;
-        }}
-
-
-                ;
+        }};
 
 
 

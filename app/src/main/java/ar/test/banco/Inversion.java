@@ -103,9 +103,10 @@ public class Inversion extends Fragment {
         String nombre = sh.getString("name", "");
         String apellido = sh.getString("lastname", "");
         String email = sh.getString("email", "");
-        String token = sh.getString("token", "");
         int pesos = sh.getInt("pesos", 0);
         int dolares = sh.getInt("dolares", 0);
+
+
 
         Button invertirButton = view.findViewById(R.id.invertir);
         Button btnCalcular = view.findViewById(R.id.calcular);
@@ -141,18 +142,11 @@ public class Inversion extends Fragment {
 
                 } else {
 
+                   // Toast.makeText(getContext(), ""+email, Toast.LENGTH_SHORT).show();
+                    getData(email,textoIngresoInt);
+
                     Snackbar snackBar = Snackbar.make(v, "INVERSION REALIZADA!", Snackbar.LENGTH_LONG);
                     snackBar.show();
-
-                    SharedPreferences sh = getContext().getSharedPreferences("data", Context.MODE_PRIVATE);
-                    String nombre = sh.getString("name", "");
-                    String apellido = sh.getString("lastname", "");
-                    String email = sh.getString("email", "");
-                    int pesos = sh.getInt("pesos", 0);
-                    int dolares = sh.getInt("dolares", 0);
-
-                    getData(email, pesos, textoIngresoInt,token);
-
                 }
 
             }
@@ -168,7 +162,7 @@ public class Inversion extends Fragment {
 
                     Double numero = Double.valueOf(textoIngresoValor.getText().toString());
 
-                    Double number = (numero * 37 / 100 / 12) + numero;
+                    Double number = (numero*5/100) + numero;
 
                     //Toast.makeText(getContext(),""+number,Toast.LENGTH_SHORT).show();
                     double plazo = Math.round(number * 100.0) / 100.0;
@@ -189,19 +183,20 @@ public class Inversion extends Fragment {
         return view;
     }
 
-    private void getData(String emailData, int pesosData, int textoIngresoValor,String token) {
+    private void getData( String email, int textoIngresoValor) {
 
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
-        String postUrl = "https://homebancking.herokuapp.com/users/login";
+        String postUrl = "https://homebancking.herokuapp.com/users/inversion";
         JSONObject postData = new JSONObject();
 
         try {
 
-            postData.put("email", emailData);
-            Double pesosFinales = Double.valueOf(textoIngresoValor - pesosData);
-            postData.put("pesos", pesosFinales);
+
+
+            postData.put("pesos", textoIngresoValor);
+            postData.put("email", email);
 
 
         } catch (JSONException e) {
@@ -209,70 +204,65 @@ public class Inversion extends Fragment {
         }
 
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT,
                 postUrl,
                 postData,
 
-                new Response.Listener<JSONObject>() {
+                response -> {
+
+                    try {
+                        JSONObject user = response.getJSONObject("user");
+
+                        String name = user.getString("name");
+                        String lastname = user.getString("lastname");
+                        String email1 = user.getString("email");
+                        int pesos = user.getInt("pesos");
+                        int dolares = user.getInt("dolares");
+                        String token = response.getString("token");
 
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-                            JSONObject user = response.getJSONObject("user");
-                            String name = user.getString("name");
-                            String lastname = user.getString("lastname");
-                            String email = user.getString("email");
-                            String pesos = user.getString("pesos");
-                            String dolares = user.getString("dolares");
-                           // String token = response.getString("token");
-
-                            Intent i = new Intent(getContext(), StartActivity.class);
-                            startActivity(i);
-                            //Toast.makeText(Login.this," Bienvenido " + token, Toast.LENGTH_SHORT).show();
+                        SharedPreferences sh = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor myEdit = sh.edit();
+                        myEdit.putString("name", name);
+                        myEdit.putString("lastname", lastname);
+                        myEdit.putString("email", email1);
+                        myEdit.putString("token", token);
+                        myEdit.putInt("pesos", pesos);
+                        myEdit.putInt("dolares", dolares);
+                        myEdit.commit();
 
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
                         error.printStackTrace();
-                        Toast.makeText(getContext(), " VERIFIQUE SUS DATOS", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getContext(), StartActivity.class);
-                        startActivity(i);
-                    }
+                        Toast.makeText(getContext(), " VERIFIQUE SUS DATOS en llamada a inversion", Toast.LENGTH_SHORT).show();
 
-                    // Providing Request Headers
+                    }})
 
-                    public Map getHeaders() throws AuthFailureError{
-                        HashMap headers = new HashMap();
-                        headers.put("Content-Type", "application/json; charset=UTF-8");
-                        headers.put("Authorization",token);
-                        return headers;
-                    }
+       /* {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Toast.makeText(getContext(), " entro al header", Toast.LENGTH_SHORT).show();
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                headers.put("Authorization",token);
+                return headers;
+            }
+        }*/
 
-                  /*  public Map<String, String> getParams() throws
-                            com.android.volley.AuthFailureError {
-                        Map<String, String> headers = new HashMap<String, String>();
-                        headers.put("Content-Type", "aplication/json");
-                        headers.put("Authorization",token);
-                        return headers;
+        ;
 
-                    };*/
-
-
-                });
-
-        requestQueue.add(jsonObjectRequest);
-
+        Intent intent = new Intent(getActivity(), StartActivity.class);
+        startActivity(intent );
 
     }
 
